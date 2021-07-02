@@ -259,6 +259,39 @@ class IndikatorProgressGlobal extends StatelessWidget {
   }
 }
 
+class LatarBelakangBerwarna extends StatelessWidget {
+  final Widget tampilanHalaman;
+
+  LatarBelakangBerwarna({
+    @required this.tampilanHalaman,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Material(
+
+                ),
+              ),
+              Container(
+                height: 150.0,
+              ),
+            ],
+          ),
+          tampilanHalaman,
+        ],
+      ),
+    );
+  }
+}
+
 /// Widget dengan keadaan (stateful Widget)
 
 class InputKataSandiGlobal extends StatefulWidget {
