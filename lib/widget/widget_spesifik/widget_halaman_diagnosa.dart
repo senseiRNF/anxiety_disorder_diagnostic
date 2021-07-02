@@ -78,8 +78,6 @@ class _FormDataPenggunaState extends State<FormDataPengguna> {
   }
 }
 
-//---------------------------------------------------------------------------
-
 class FormDiagnosa extends StatefulWidget {
   final Function fungsiSimpan;
 

@@ -1,5 +1,7 @@
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
+import 'package:anxiety_disorder_diagnostic/halaman/halaman_masuk.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_utama.dart';
+import 'package:anxiety_disorder_diagnostic/layanan/preferensi_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +16,16 @@ class _HalamanPembukaState extends State<HalamanPembuka> {
     super.initState();
 
     Future.delayed(
-      Duration(seconds: 3), () => timpaDenganHalaman(context, HalamanUtama()),
+      Duration(seconds: 3), () => timpaDenganHalaman(context, HalamanMasuk()),
     );
+  }
+
+  void initLoad() async {
+    String token = await tampilkanToken();
+
+    token != null ?
+    timpaDenganHalaman(context, HalamanUtama()) :
+    timpaDenganHalaman(context, HalamanMasuk());
   }
 
   @override

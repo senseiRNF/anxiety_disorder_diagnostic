@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "164689520553",
+    "project_id": "anxietydisorderdiagnostic",
+    "storage_bucket": "anxietydisorderdiagnostic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164689520553:android:dfdeadc431763781c646b8",
+        "android_client_info": {
+          "package_name": "com.eastbuitenzorg.anxiety_disorder_diagnostic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164689520553-flct69ibtnflbpt6hnea71milg7jnm0u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eastbuitenzorg.anxiety_disorder_diagnostic",
+            "certificate_hash": "3c953cb1554cf677dcf732f36f4f1fb63392892e"
+          }
+        },
+        {
+          "client_id": "164689520553-b1rhn4bmpa6iq0us6s52jhlh6cjpugr2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkpIZas1dxRglOSrstJuhmU1crfMQedxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164689520553-b1rhn4bmpa6iq0us6s52jhlh6cjpugr2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

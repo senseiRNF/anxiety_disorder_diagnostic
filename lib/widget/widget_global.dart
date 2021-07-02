@@ -171,7 +171,7 @@ class TombolGlobal extends StatelessWidget {
     return result;
   }
 
-  Color periksaWarnaJudul() {
+  Color _periksaWarnaJudul() {
     Color result;
 
     warnaJudul != null ? result = warnaJudul : result = Colors.white;
@@ -193,13 +193,55 @@ class TombolGlobal extends StatelessWidget {
           horizontal: 10.0,
           vertical: 20.0,
         ),
-        child: Text(
-          judul,
-          style: TextStyle(
-            fontSize: _periksaUkuranJudul(),
-            color: periksaWarnaJudul(),
-          ),
+        child: TeksGlobal(
+          isi: judul,
+          ukuran: _periksaUkuranJudul(),
+          warna: _periksaWarnaJudul(),
         ),
+      ),
+    );
+  }
+}
+
+class TombolTeksGlobal extends StatelessWidget {
+  final String judul;
+  final Function fungsiTekan;
+  final double ukuranJudul;
+  final Color warnaJudul;
+
+  TombolTeksGlobal({
+    @required this.judul,
+    @required this.fungsiTekan,
+    this.ukuranJudul,
+    this.warnaJudul,
+  });
+
+  double _periksaUkuranJudul() {
+    double result;
+
+    ukuranJudul != null ? result = ukuranJudul : result = 14.0;
+
+    return result;
+  }
+
+  Color _periksaWarnaJudul() {
+    Color result;
+
+    warnaJudul != null ? result = warnaJudul : result = Colors.black54;
+
+    return result;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        fungsiTekan();
+      },
+      child: TeksGlobal(
+        isi: judul,
+        ukuran: _periksaUkuranJudul(),
+        warna: _periksaWarnaJudul(),
       ),
     );
   }
@@ -256,6 +298,44 @@ class _InputKataSandiGlobalState extends State<InputKataSandiGlobal> {
       ),
       obscureText: sembunyikan,
       controller: widget.controller,
+    );
+  }
+}
+
+class KotakCentangGlobal extends StatefulWidget {
+  final String judul;
+  final Function fungsiUbah;
+
+  KotakCentangGlobal({
+    @required this.judul,
+    @required this.fungsiUbah,
+  });
+
+  @override
+  _KotakCentangGlobalState createState() => _KotakCentangGlobalState();
+}
+
+class _KotakCentangGlobalState extends State<KotakCentangGlobal> {
+  bool dicentang = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      child: CheckboxListTile(
+        value: dicentang,
+        onChanged: (value) {
+          setState(() {
+            dicentang = value;
+          });
+
+          widget.fungsiUbah(value);
+        },
+        title: TeksGlobal(
+          isi: widget.judul,
+        ),
+        controlAffinity: ListTileControlAffinity.leading,
+      ),
     );
   }
 }
