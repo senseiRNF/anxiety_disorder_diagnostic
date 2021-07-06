@@ -1,3 +1,4 @@
+import 'package:anxiety_disorder_diagnostic/widget/widget_spesifik/widget_halaman_perkenalan.dart';
 import 'package:flutter/material.dart';
 
 class HalamanPerkenalan extends StatefulWidget {
@@ -16,7 +17,25 @@ class _HalamanPerkenalanState extends State<HalamanPerkenalan> {
     return Scaffold(
       body: SafeArea(
         child: Column(
-
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      width: MediaQuery.of(context).size.width,
+                      child: CustomPaint(
+                        painter: DesainLatarBelakang(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

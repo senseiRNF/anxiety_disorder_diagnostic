@@ -54,6 +54,22 @@ Future<bool> aturNama(String nama) async {
   return hasil;
 }
 
+Future<bool> aturPerkenalan(bool perkenalan) async {
+  bool hasil;
+
+  final SharedPreferences prefs = await preferensi;
+
+  await prefs.setBool('perkenalan', perkenalan).then((value) {
+    hasil = true;
+  }).catchError((e) {
+    print(e);
+
+    hasil = false;
+  });
+
+  return hasil;
+}
+
 /// tampilkan preferensi
 
 Future<String> tampilkanSurel() async {
@@ -82,6 +98,16 @@ Future<String> tampilkanNama() async {
   final SharedPreferences prefs = await preferensi;
 
   hasil = prefs.getString('nama');
+
+  return hasil;
+}
+
+Future<bool> tampilkanPerkenalan() async {
+  bool hasil;
+
+  final SharedPreferences prefs = await preferensi;
+
+  hasil = prefs.getBool('perkenalan');
 
   return hasil;
 }

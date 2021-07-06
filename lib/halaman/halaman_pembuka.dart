@@ -1,5 +1,6 @@
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_masuk.dart';
+import 'package:anxiety_disorder_diagnostic/halaman/halaman_perkenalan.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_utama.dart';
 import 'package:anxiety_disorder_diagnostic/layanan/preferensi_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
@@ -16,16 +17,19 @@ class _HalamanPembukaState extends State<HalamanPembuka> {
     super.initState();
 
     Future.delayed(
-      Duration(seconds: 3), () => timpaDenganHalaman(context, HalamanMasuk()),
+      Duration(seconds: 3), () => initLoad(),
     );
   }
 
   void initLoad() async {
+    bool perkenalan = await tampilkanPerkenalan();
     String token = await tampilkanToken();
 
+    perkenalan != null && perkenalan ?
     token != null ?
     timpaDenganHalaman(context, HalamanUtama()) :
-    timpaDenganHalaman(context, HalamanMasuk());
+    timpaDenganHalaman(context, HalamanMasuk()) :
+    timpaDenganHalaman(context, HalamanPerkenalan());
   }
 
   @override
@@ -40,10 +44,9 @@ class _HalamanPembukaState extends State<HalamanPembuka> {
               child: Padding(
                 padding: EdgeInsets.all(10.0,),
                 child: Center(
-                  child: TeksGlobal(
-                    isi: 'Masukan Logo disini',
-                    ukuran: 24.0,
-                    posisi: TextAlign.center,
+                  child: Image.asset(
+                    'aset/gambar/gambar_pembuka.png',
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
               ),
