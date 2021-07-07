@@ -1,28 +1,182 @@
+import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
+import 'package:anxiety_disorder_diagnostic/halaman/halaman_masuk.dart';
+import 'package:anxiety_disorder_diagnostic/layanan/preferensi_global.dart';
+import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:flutter/material.dart';
 
-/// Koleksi widget yang dapat digunakan di halaman utama (main screen widgets)
+/// Koleksi widget yang dapat digunakan di halaman perkenalan (introduction screen widgets)
 ///
 /// Widget tanpa keadaan (stateless widget)
 
-class DesainLatarBelakang extends CustomPainter {
+class TeksPerkenalan extends StatelessWidget {
+  final String teksAtas;
+  final String teksBawah;
+
+  TeksPerkenalan({
+    @required this.teksAtas,
+    @required this.teksBawah,
+  });
+
   @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint();
-    paint.color = Colors.yellow;
-    paint.style = PaintingStyle.stroke;
-    paint.strokeWidth = 2.0;
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          height: 60.0,
+        ),
+        TeksGlobal(
+          isi: teksAtas,
+          ukuran: 20.0,
+          posisi: TextAlign.end,
+        ),
+        SizedBox(
+          height: 60.0,
+        ),
+        TeksGlobal(
+          isi: teksBawah,
+          ukuran: 20.0,
+          posisi: TextAlign.end,
+        ),
+      ],
+    );
+  }
+}
 
-    var path = Path();
+class TombolPerkenalanSelanjutnya extends StatelessWidget {
+  final Function tekanTombol;
 
-    /*path.quadraticBezierTo(x1, y1, x2, y2)*/
-    path.quadraticBezierTo(size.width / 2, size.height / 2, size.width / 2, size.height / 4);
-    path.lineTo(size.width, size.height);
+  TombolPerkenalanSelanjutnya({
+    @required this.tekanTombol,
+  });
 
-    canvas.drawPath(path, paint);
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(100.0,),
+      ),
+      elevation: 10.0,
+      child: InkWell(
+        onTap: () {
+          tekanTombol();
+        },
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100.0,),
+        ),
+        child: Icon(
+          Icons.navigate_next,
+          color: Colors.black54,
+          size: 80.0,
+        ),
+      ),
+    );
+  }
+}
+
+class TombolPerkenalanMasuk extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0,),
+      ),
+      elevation: 10.0,
+      child: InkWell(
+        onTap: () {
+          aturPerkenalan(true);
+
+          timpaDenganHalaman(context, HalamanMasuk());
+        },
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0,),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(20.0,),
+          child: TeksGlobal(
+            isi: 'Ayo Mulai!',
+            ukuran: 28.0,
+            tebal: true,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Widget dengan keadaan (stateful Widget)
+
+class WidgetPerkenalan extends StatefulWidget {
+  @override
+  _WidgetPerkenalanState createState() => _WidgetPerkenalanState();
+}
+
+class _WidgetPerkenalanState extends State<WidgetPerkenalan> {
+  int indeks = 0;
+
+  List daftarAset = [
+    'aset/gambar/latar_belakang_pria.png',
+    'aset/gambar/latar_belakang_wanita.png',
+    'aset/gambar/latar_belakang_gabung.png',
+  ];
+
+  List daftarTeks = [
+    ['Selamat Datang', 'Apakah Anda mengalami gangguan kecemasan?'],
+    ['Anda ragu apakah sedang mengalaminya atau tidak?', 'Tidak tau cara menanganinya?'],
+    ['Tenang, kami punya solusi', 'Solusi terbaik untuk kesehatan mental Anda'],
+  ];
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Image.asset(
+                  daftarAset[indeks],
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.all(10.0,),
+          child: TeksPerkenalan(
+            teksAtas: daftarTeks[indeks][0],
+            teksBawah: daftarTeks[indeks][1],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10.0,),
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: indeks < 2 ?
+            TombolPerkenalanSelanjutnya(
+              tekanTombol: () {
+                setState(() {
+                  indeks = indeks + 1;
+                });
+              },
+            ) :
+            TombolPerkenalanMasuk(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
