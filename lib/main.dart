@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Diagnosa Gangguan Kecemasan',
       theme: ThemeData(
         primarySwatch: Colors.yellow,
+        fontFamily: 'Montserrat',
       ),
       debugShowCheckedModeBanner: false,
       routes: {
