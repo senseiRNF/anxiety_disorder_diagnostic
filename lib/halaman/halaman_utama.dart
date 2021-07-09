@@ -47,45 +47,24 @@ class _HalamanUtamaState extends State<HalamanUtama> {
       onWillPop: keluarAplikasi,
       child: Scaffold(
         body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(10.0,),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0,),
-                        child: TeksGlobal(
-                          isi: 'Diagnosa Gangguan Kecemasan',
-                          ukuran: 22.0,
-                          tebal: true,
-                        ),
-                      ),
-                    ),
-                  ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              WidgetInformasiAkun(
+                nama: 'FooBar',
+                gender: 'Pria',
+                email: 'foobar@gmail.com',
+              ),
+              SizedBox(
+                height: 60.0,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0,),
+                  child: WidgetInformasiHalaman(),
                 ),
-                Divider(
-                  thickness: 2.0,
-                  color: Colors.black54,
-                ),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      MenuUtama(judul: 'Input Diagnosa Baru', fungsiTekan: () {
-                        pindahKeHalaman(context, HalamanDiagnosa(), (panggilKembali) {
-
-                        });
-                      }),
-                      MenuUtama(judul: 'Lihat Hasil Tersimpan', fungsiTekan: () {
-
-                      }),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

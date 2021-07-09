@@ -14,12 +14,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  ///Widget utama untuk memulai program
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Diagnosa Gangguan Kecemasan',
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
+        primaryColor: Color(0xFFFFB900),
         fontFamily: 'Montserrat',
       ),
       debugShowCheckedModeBanner: false,

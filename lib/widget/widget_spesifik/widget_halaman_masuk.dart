@@ -27,7 +27,7 @@ class TombolLoginGoogle extends StatelessWidget {
         fungsiTekan();
       },
       style: ElevatedButton.styleFrom(
-        primary: Colors.white70,
+        primary: Colors.white,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(

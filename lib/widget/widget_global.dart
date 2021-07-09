@@ -31,7 +31,7 @@ class TeksGlobal extends StatelessWidget {
   Color _periksaWarna() {
     Color hasil;
 
-    warna != null ? hasil = warna : hasil = Colors.black54;
+    warna != null ? hasil = warna : hasil = Colors.black;
 
     return hasil;
   }
@@ -100,8 +100,26 @@ class InputTeksGlobal extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0,),
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0,),
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0,),
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0,),
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
         ),
       ),
       controller: controller,
@@ -125,8 +143,26 @@ class InputAngkaGlobal extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0,),
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0,),
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0,),
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0,),
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
         ),
       ),
       controller: controller,
@@ -158,7 +194,7 @@ class TombolGlobal extends StatelessWidget {
   Color _periksaWarnaTombol() {
     Color result;
 
-    warnaTombol != null ? result = warnaTombol : result = Colors.blue;
+    warnaTombol != null ? result = warnaTombol : result = Color(0xFFFFB900);
 
     return result;
   }
@@ -187,6 +223,9 @@ class TombolGlobal extends StatelessWidget {
       },
       style: ElevatedButton.styleFrom(
         primary: _periksaWarnaTombol(),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0,),
+        ),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -227,7 +266,7 @@ class TombolTeksGlobal extends StatelessWidget {
   Color _periksaWarnaJudul() {
     Color result;
 
-    warnaJudul != null ? result = warnaJudul : result = Colors.black54;
+    warnaJudul != null ? result = warnaJudul : result = Colors.black;
 
     return result;
   }
@@ -259,39 +298,6 @@ class IndikatorProgressGlobal extends StatelessWidget {
   }
 }
 
-class LatarBelakangBerwarna extends StatelessWidget {
-  final Widget tampilanHalaman;
-
-  LatarBelakangBerwarna({
-    @required this.tampilanHalaman,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Material(
-
-                ),
-              ),
-              Container(
-                height: 150.0,
-              ),
-            ],
-          ),
-          tampilanHalaman,
-        ],
-      ),
-    );
-  }
-}
-
 /// Widget dengan keadaan (stateful Widget)
 
 class InputKataSandiGlobal extends StatefulWidget {
@@ -315,8 +321,26 @@ class _InputKataSandiGlobalState extends State<InputKataSandiGlobal> {
     return TextField(
       decoration: InputDecoration(
           labelText: widget.label,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0,),
+          labelStyle: TextStyle(
+            color: Colors.black,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0,),
+            borderSide: BorderSide(
+              color: Colors.black,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0,),
+            borderSide: BorderSide(
+              color: Colors.black,
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0,),
+            borderSide: BorderSide(
+              color: Colors.black,
+            ),
           ),
           suffixIcon: IconButton(
             onPressed: () {
