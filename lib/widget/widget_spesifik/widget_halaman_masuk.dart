@@ -1,6 +1,10 @@
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:flutter/material.dart';
 
+/// Koleksi widget yang dapat digunakan di halaman diagnosis (diagnosis screen widgets)
+///
+/// Widget tanpa keadaan (stateless widget)
+
 class TombolLoginGoogle extends StatelessWidget {
   final String judul;
   final Function fungsiTekan;

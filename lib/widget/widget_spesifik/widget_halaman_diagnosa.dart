@@ -2,7 +2,7 @@ import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:flutter/material.dart';
 
-/// Koleksi widget yang dapat digunakan di halaman utama (main screen widgets)
+/// Koleksi widget yang dapat digunakan di halaman diagnosis (diagnosis screen widgets)
 ///
 /// Widget dengan keadaan (stateful Widget)
 

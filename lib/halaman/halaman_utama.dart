@@ -1,5 +1,3 @@
-import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
-import 'package:anxiety_disorder_diagnostic/halaman/halaman_diagnosa.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_spesifik/widget_halaman_utama.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +9,39 @@ class HalamanUtama extends StatefulWidget {
 
 class _HalamanUtamaState extends State<HalamanUtama> {
   DateTime waktuTekanKembali;
+
+  int indeksNavigasi = 0;
+
+  List<BottomNavigationBarItem> navigationItem = [
+    BottomNavigationBarItem(
+      icon: Image.asset(
+        'aset/gambar/ikon_beranda.png',
+      ),
+      label: 'Beranda',
+    ),
+    BottomNavigationBarItem(
+      icon: Image.asset(
+        'aset/gambar/ikon_riwayat.png',
+      ),
+      label: 'Riwayat',
+    ),
+    BottomNavigationBarItem(
+      icon: Image.asset(
+        'aset/gambar/ikon_pengaturan.png',
+      ),
+      label: 'Pengaturan',
+    ),
+  ];
+
+  List<Widget> daftarWidget = [
+    WidgetHalamanBeranda(
+      nama: 'FooBar',
+      gender: 'Pria',
+      email: 'foobar@gmail.com',
+    ),
+    WidgetHalamanRiwayat(),
+    WidgetHalamanPengaturan(),
+  ];
 
   @override
   void initState() {
@@ -50,22 +81,20 @@ class _HalamanUtamaState extends State<HalamanUtama> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              WidgetInformasiAkun(
-                nama: 'FooBar',
-                gender: 'Pria',
-                email: 'foobar@gmail.com',
-              ),
-              SizedBox(
-                height: 60.0,
-              ),
               Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0,),
-                  child: WidgetInformasiHalaman(),
-                ),
+                child: daftarWidget[indeksNavigasi],
               ),
             ],
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: navigationItem,
+          onTap: (int terpilih) {
+            setState(() {
+              indeksNavigasi = terpilih;
+            });
+          },
+          currentIndex: indeksNavigasi,
         ),
       ),
     );
