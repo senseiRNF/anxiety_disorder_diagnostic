@@ -114,6 +114,10 @@ class WidgetPerkenalan extends StatefulWidget {
 class _WidgetPerkenalanState extends State<WidgetPerkenalan> {
   int indeks = 0;
 
+  double opasitas = 1.0;
+
+  bool jeda = false;
+
   List daftarAset = [
     'aset/gambar/latar_belakang_pria.png',
     'aset/gambar/latar_belakang_wanita.png',
@@ -133,45 +137,60 @@ class _WidgetPerkenalanState extends State<WidgetPerkenalan> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  daftarAset[indeks],
-                  fit: BoxFit.fitWidth,
+    return AnimatedOpacity(
+      duration: Duration(seconds: 1),
+      opacity: opasitas,
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.asset(
+                    daftarAset[indeks],
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.all(10.0,),
+            child: TeksPerkenalan(
+              teksAtas: daftarTeks[indeks][0],
+              teksBawah: daftarTeks[indeks][1],
             ),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.all(10.0,),
-          child: TeksPerkenalan(
-            teksAtas: daftarTeks[indeks][0],
-            teksBawah: daftarTeks[indeks][1],
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(10.0,),
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: indeks < 2 ?
-            TombolPerkenalanSelanjutnya(
-              tekanTombol: () {
-                setState(() {
-                  indeks = indeks + 1;
-                });
-              },
-            ) :
-            TombolPerkenalanMasuk(),
+          Padding(
+            padding: EdgeInsets.all(10.0,),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: indeks < 2 ?
+              TombolPerkenalanSelanjutnya(
+                tekanTombol: !jeda ? () {
+                  setState(() {
+                    opasitas = 0;
+                    jeda = true;
+                  });
+
+                  Future.delayed(Duration(seconds: 1), () {
+                    setState(() {
+                      indeks = indeks + 1;
+                      opasitas = 1.0;
+                      jeda = false;
+                    });
+                  });
+                } : () {
+
+                },
+              ) :
+              TombolPerkenalanMasuk(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

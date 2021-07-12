@@ -1,6 +1,5 @@
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_utama.dart';
-import 'package:anxiety_disorder_diagnostic/layanan/preferensi_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_spesifik/widget_halaman_masuk.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +15,6 @@ class _HalamanMasukState extends State<HalamanMasuk> {
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(Duration(seconds: 0), () => test());
-  }
-
-  void test() async {
-    await aturPerkenalan(false);
   }
 
   Future<bool> keluarAplikasi() {

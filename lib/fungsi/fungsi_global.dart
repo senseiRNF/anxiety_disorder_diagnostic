@@ -78,15 +78,19 @@ void dialogOpsi(BuildContext context, String pesan, Function tekanYa, Function t
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TombolGlobal(judul: 'Tidak', warnaTombol: Colors.white, warnaJudul: Colors.red, fungsiTekan: () {
-                    tekanTidak();
-                  }),
+                  Expanded(
+                    child: TombolGlobal(judul: 'Tidak', warnaTombol: Colors.white, warnaJudul: Colors.red, fungsiTekan: () {
+                      tekanTidak();
+                    }),
+                  ),
                   SizedBox(
                     width: 10.0,
                   ),
-                  TombolGlobal(judul: 'Ya', warnaTombol: Colors.white, warnaJudul: Colors.black54, fungsiTekan: () {
-                    tekanYa();
-                  }),
+                  Expanded(
+                    child: TombolGlobal(judul: 'Ya', warnaTombol: Colors.white, warnaJudul: Colors.black54, fungsiTekan: () {
+                      tekanYa();
+                    }),
+                  ),
                 ],
               ),
             ],

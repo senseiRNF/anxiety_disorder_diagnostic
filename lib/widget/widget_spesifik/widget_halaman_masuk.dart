@@ -49,6 +49,7 @@ class TombolLoginGoogle extends StatelessWidget {
             isi: judul,
             ukuran: _periksaUkuranJudul(),
             posisi: TextAlign.center,
+            tebal: true,
           ),
         ),
       ),

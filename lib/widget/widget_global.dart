@@ -236,6 +236,7 @@ class TombolGlobal extends StatelessWidget {
           isi: judul,
           ukuran: _periksaUkuranJudul(),
           warna: _periksaWarnaJudul(),
+          tebal: true,
         ),
       ),
     );

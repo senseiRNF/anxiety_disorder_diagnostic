@@ -8,53 +8,56 @@ class HalamanDiagnosa extends StatefulWidget {
 }
 
 class _HalamanDiagnosaState extends State<HalamanDiagnosa> {
-  bool inputDataPengguna = false;
-
   @override
   void initState() {
     super.initState();
   }
 
-  Future<bool> keluarHalaman() {
-    dialogOpsi(context, 'Keluar halaman, data yang Anda masukan tidak akan tersimpan, Anda yakin?', () {
-      tutupHalaman(context, null);
-      tutupHalaman(context, null);
-    }, () {
-      tutupHalaman(context, null);
-    });
-
-    return Future.value(false);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: keluarHalaman,
-      child: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(10.0,),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: !inputDataPengguna ?
-                  FormDataPengguna(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: Theme.of(context).primaryColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0,),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Material(
+                      color: Colors.transparent,
+                      child: IconButton(
+                        onPressed: () {
+                          dialogOpsi(context, 'Keluar halaman, data yang Anda masukan tidak akan tersimpan, Anda yakin?', () {
+                            tutupHalaman(context, null);
+                            tutupHalaman(context, null);
+                          }, () {
+                            tutupHalaman(context, null);
+                          });
+                        },
+                        icon: Icon(
+                          Icons.close,
+                        ),
+                        iconSize: 24.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0,),
+                  child: FormDiagnosa(
                     fungsiSimpan: () {
-                      setState(() {
-                        inputDataPengguna = true;
-                      });
-                    },
-                  ) : FormDiagnosa(
-                    fungsiSimpan: () {
-                      setState(() {
-                        inputDataPengguna = false;
-                      });
+
                     },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
