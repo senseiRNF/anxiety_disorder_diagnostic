@@ -95,12 +95,15 @@ class FormDiagnosa extends StatefulWidget {
 }
 
 class _FormDiagnosaState extends State<FormDiagnosa> {
-  int noPertanyaan = 0;
-  int noGangguan;
+  int noPertanyaanDasar = 0;
+  int noPertanyaanLanjutan = 0;
+  int jenisGangguan;
 
   List daftarDiagnosa = [
     [1, false,],
   ];
+
+  List daftarCertaintyFactor = [];
 
   @override
   void initState() {
@@ -108,17 +111,25 @@ class _FormDiagnosaState extends State<FormDiagnosa> {
   }
 
   Future<bool> keluarHalaman() {
-    if(noPertanyaan != 0) {
+    if(noPertanyaanLanjutan != 0) {
       setState(() {
-        noPertanyaan = noPertanyaan - 1;
+        noPertanyaanLanjutan = noPertanyaanLanjutan - 1;
       });
     } else {
-      dialogOpsi(context, 'Keluar halaman, data yang Anda masukan tidak akan tersimpan, Anda yakin?', () {
-        tutupHalaman(context, null);
-        tutupHalaman(context, null);
-      }, () {
-        tutupHalaman(context, null);
-      });
+      if(noPertanyaanDasar != 0) {
+        setState(() {
+          daftarDiagnosa.removeAt(noPertanyaanDasar);
+
+          noPertanyaanDasar = noPertanyaanDasar - 1;
+        });
+      } else {
+        dialogOpsi(context, 'Keluar halaman, data yang Anda masukan tidak akan tersimpan, Anda yakin?', () {
+          tutupHalaman(context, null);
+          tutupHalaman(context, null);
+        }, () {
+          tutupHalaman(context, null);
+        });
+      }
     }
 
     return Future.value(false);
@@ -179,52 +190,146 @@ class _FormDiagnosaState extends State<FormDiagnosa> {
                                   crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
                                     TeksGlobal(
-                                      isi: daftarGejala[daftarDiagnosa[noPertanyaan][0]],
+                                      isi: jenisGangguan == null ?
+                                      daftarGejala[daftarDiagnosa[noPertanyaanDasar][0]] :
+                                      daftarGejala[daftarCertaintyFactor[noPertanyaanLanjutan][0]],
                                       ukuran: 18.0,
                                     ),
                                     SizedBox(
                                       height: 10.0,
                                     ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: RadioListTile(
-                                        value: true,
-                                        groupValue: daftarDiagnosa[noPertanyaan][1],
-                                        onChanged: (hasil) {
-                                          setState(() {
-                                            daftarDiagnosa[noPertanyaan][1] = hasil;
-                                          });
-                                        },
-                                        title: TeksGlobal(
-                                          isi: 'Ya',
-                                          ukuran: 16.0,
+                                    jenisGangguan == null ?
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: [
+                                        Material(
+                                          color: Colors.transparent,
+                                          child: RadioListTile(
+                                            value: true,
+                                            groupValue: daftarDiagnosa[noPertanyaanDasar][1],
+                                            onChanged: (hasil) {
+                                              setState(() {
+                                                daftarDiagnosa[noPertanyaanDasar][1] = hasil;
+                                              });
+                                            },
+                                            title: TeksGlobal(
+                                              isi: 'Ya',
+                                              ukuran: 16.0,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: RadioListTile(
-                                        value: false,
-                                        groupValue: daftarDiagnosa[noPertanyaan][1],
-                                        onChanged: (hasil) {
-                                          setState(() {
-                                            daftarDiagnosa[noPertanyaan][1] = hasil;
-                                          });
-                                        },
-                                        title: TeksGlobal(
-                                          isi: 'Tidak',
-                                          ukuran: 16.0,
+                                        Material(
+                                          color: Colors.transparent,
+                                          child: RadioListTile(
+                                            value: false,
+                                            groupValue: daftarDiagnosa[noPertanyaanDasar][1],
+                                            onChanged: (hasil) {
+                                              setState(() {
+                                                daftarDiagnosa[noPertanyaanDasar][1] = hasil;
+                                              });
+                                            },
+                                            title: TeksGlobal(
+                                              isi: 'Tidak',
+                                              ukuran: 16.0,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
+                                    ) :
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: [
+                                        Material(
+                                          color: Colors.transparent,
+                                          child: RadioListTile(
+                                            value: 1.0,
+                                            groupValue: daftarCertaintyFactor[noPertanyaanLanjutan][1],
+                                            onChanged: (hasil) {
+                                              setState(() {
+                                                daftarCertaintyFactor[noPertanyaanLanjutan][1] = hasil;
+                                              });
+                                            },
+                                            title: TeksGlobal(
+                                              isi: 'Sangat Yakin',
+                                              ukuran: 16.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Material(
+                                          color: Colors.transparent,
+                                          child: RadioListTile(
+                                            value: 0.8,
+                                            groupValue: daftarCertaintyFactor[noPertanyaanLanjutan][1],
+                                            onChanged: (hasil) {
+                                              setState(() {
+                                                daftarCertaintyFactor[noPertanyaanLanjutan][1] = hasil;
+                                              });
+                                            },
+                                            title: TeksGlobal(
+                                              isi: 'Yakin',
+                                              ukuran: 16.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Material(
+                                          color: Colors.transparent,
+                                          child: RadioListTile(
+                                            value: 0.6,
+                                            groupValue: daftarCertaintyFactor[noPertanyaanLanjutan][1],
+                                            onChanged: (hasil) {
+                                              setState(() {
+                                                daftarCertaintyFactor[noPertanyaanLanjutan][1] = hasil;
+                                              });
+                                            },
+                                            title: TeksGlobal(
+                                              isi: 'Cukup Yakin',
+                                              ukuran: 16.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Material(
+                                          color: Colors.transparent,
+                                          child: RadioListTile(
+                                            value: 0.4,
+                                            groupValue: daftarCertaintyFactor[noPertanyaanLanjutan][1],
+                                            onChanged: (hasil) {
+                                              setState(() {
+                                                daftarCertaintyFactor[noPertanyaanLanjutan][1] = hasil;
+                                              });
+                                            },
+                                            title: TeksGlobal(
+                                              isi: 'Tidak Tahu',
+                                              ukuran: 16.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Material(
+                                          color: Colors.transparent,
+                                          child: RadioListTile(
+                                            value: 0.0,
+                                            groupValue: daftarCertaintyFactor[noPertanyaanLanjutan][1],
+                                            onChanged: (hasil) {
+                                              setState(() {
+                                                daftarCertaintyFactor[noPertanyaanLanjutan][1] = hasil;
+                                              });
+                                            },
+                                            title: TeksGlobal(
+                                              isi: 'Tidak',
+                                              ukuran: 16.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                           ),
+                          jenisGangguan == null ?
                           Row(
                             children: [
-                              noPertanyaan == 0 ?
+                              noPertanyaanDasar == 0 ?
                               Material() :
                               Expanded(
                                 child: Material(
@@ -232,9 +337,9 @@ class _FormDiagnosaState extends State<FormDiagnosa> {
                                   child: InkWell(
                                     onTap: () {
                                       setState(() {
-                                        daftarDiagnosa.removeAt(noPertanyaan);
+                                        daftarDiagnosa.removeAt(noPertanyaanDasar);
 
-                                        noPertanyaan = noPertanyaan - 1;
+                                        noPertanyaanDasar = noPertanyaanDasar - 1;
                                       });
                                     },
                                     child: Container(
@@ -259,7 +364,7 @@ class _FormDiagnosaState extends State<FormDiagnosa> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
                                       bottomRight: Radius.circular(20.0,),
-                                      bottomLeft: noPertanyaan == 0 ? Radius.circular(20.0,) : Radius.zero,
+                                      bottomLeft: noPertanyaanDasar == 0 ? Radius.circular(20.0,) : Radius.zero,
                                     ),
                                     color: Colors.black,
                                   ),
@@ -267,21 +372,106 @@ class _FormDiagnosaState extends State<FormDiagnosa> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () {
-                                        pertanyaanPindaiGangguan(daftarDiagnosa[noPertanyaan][0], daftarDiagnosa[noPertanyaan][1], (int noGejala, int hasil) {
+                                        pertanyaanPindaiGangguan(daftarDiagnosa[noPertanyaanDasar][0], daftarDiagnosa[noPertanyaanDasar][1], (int noGejala, int hasil, List certaintyFactor) {
                                           if(hasil == null) {
                                             setState(() {
                                               daftarDiagnosa.add([noGejala, false]);
 
-                                              noPertanyaan = noPertanyaan + 1;
+                                              noPertanyaanDasar = noPertanyaanDasar + 1;
                                             });
                                           } else {
                                             setState(() {
-                                              noGangguan = hasil;
+                                              jenisGangguan = hasil;
+                                              daftarCertaintyFactor = certaintyFactor;
                                             });
-
-                                            print(daftarGangguan[noGangguan]);
                                           }
                                         });
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.all(15.0,),
+                                        child: TeksGlobal(
+                                          isi: 'Selanjutnya',
+                                          ukuran: 16.0,
+                                          warna: Colors.white,
+                                          tebal: true,
+                                          posisi: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ) :
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      if(noPertanyaanLanjutan != 0) {
+                                        setState(() {
+                                          daftarCertaintyFactor.removeAt(noPertanyaanLanjutan);
+
+                                          noPertanyaanLanjutan = noPertanyaanLanjutan - 1;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          jenisGangguan = null;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(15.0,),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(20.0,),
+                                        ),
+                                      ),
+                                      child: TeksGlobal(
+                                        isi: 'Batal',
+                                        ukuran: 16.0,
+                                        tebal: true,
+                                        posisi: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(20.0,),
+                                    ),
+                                    color: Colors.black,
+                                  ),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: () {
+                                        if(noPertanyaanLanjutan < daftarCertaintyFactor.length - 1) {
+                                          setState(() {
+                                            noPertanyaanLanjutan = noPertanyaanLanjutan + 1;
+                                          });
+                                        }
+
+                                        /*pertanyaanPindaiGangguan(daftarDiagnosa[noPertanyaanLanjutan][0], daftarDiagnosa[noPertanyaanDasar][1], (int noGejala, int hasil) {
+                                          if(hasil == null) {
+                                            setState(() {
+                                              daftarDiagnosa.add([noGejala, false]);
+
+                                              noPertanyaanDasar = noPertanyaanDasar + 1;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              jenisGangguan = hasil;
+                                            });
+
+                                            print(daftarGangguan[jenisGangguan]);
+                                          }
+                                        });*/
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.all(15.0,),
