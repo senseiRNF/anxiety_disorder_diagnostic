@@ -1,4 +1,5 @@
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
+import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_spesifik/fungsi_halaman_diagnosa.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_spesifik/widget_halaman_diagnosa.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,10 @@ class HalamanDiagnosa extends StatefulWidget {
 }
 
 class _HalamanDiagnosaState extends State<HalamanDiagnosa> {
+  int jenisGangguan;
+
+  double hasil;
+
   @override
   void initState() {
     super.initState();
@@ -22,6 +27,7 @@ class _HalamanDiagnosaState extends State<HalamanDiagnosa> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              hasil == null ?
               Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0,),
                 child: Row(
@@ -46,14 +52,22 @@ class _HalamanDiagnosaState extends State<HalamanDiagnosa> {
                     ),
                   ],
                 ),
-              ),
+              ) : Material(),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0,),
-                  child: FormDiagnosa(
-                    fungsiSimpan: () {
-
+                  child: hasil == null ?
+                  FormDiagnosa(
+                    fungsiSimpan: (double bobot, int gangguan) {
+                      setState(() {
+                        hasil = bobot;
+                        jenisGangguan = gangguan;
+                      });
                     },
+                  ) :
+                  TampilanHasil(
+                    jenisGangguan: jenisGangguan,
+                    bobotCFCombined: hasil,
                   ),
                 ),
               ),

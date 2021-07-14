@@ -1,6 +1,7 @@
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_diagnosa.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_pembuka.dart';
+import 'package:anxiety_disorder_diagnostic/halaman/halaman_riwayat.dart';
 import 'package:anxiety_disorder_diagnostic/layanan/preferensi_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:flutter/material.dart';
@@ -190,7 +191,7 @@ class WidgetHalamanPengaturan extends StatelessWidget {
                           timpaDenganHalaman(context, HalamanPembuka());
                         });
                       }, () {
-
+                        tutupHalaman(context, null);
                       });
                     },
                     leading: Container(
@@ -333,7 +334,9 @@ class _WidgetHalamanRiwayatState extends State<WidgetHalamanRiwayat> {
                             color: Colors.transparent,
                             child: IconButton(
                               onPressed: () {
+                                pindahKeHalaman(context, HalamanRiwayat(noRiwayat: indeks+1), (panggilKembali) {
 
+                                });
                               },
                               icon: Icon(
                                 Icons.arrow_forward,
