@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Pengaturan untuk mengunci orientasi layar
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then((value) {
@@ -14,12 +13,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
-  ///Widget utama untuk memulai program
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Diagnosis Gangguan Kecemasan',
+      title: 'Sistem Pakar Diagnosis Gangguan Kecemasan',
       theme: ThemeData(
         primaryColor: Color(0xFFFFB900),
         fontFamily: 'Montserrat',

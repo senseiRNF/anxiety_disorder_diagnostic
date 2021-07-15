@@ -1,3 +1,4 @@
+import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_spesifik/fungsi_halaman_utama.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_spesifik/widget_halaman_utama.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,10 @@ class _HalamanUtamaState extends State<HalamanUtama> {
   DateTime waktuTekanKembali;
 
   int indeksNavigasi = 0;
+  int noSapaan;
+
+  String nama;
+  String surel;
 
   List<BottomNavigationBarItem> navigationItem = [
     BottomNavigationBarItem(
@@ -34,11 +39,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
   ];
 
   List<Widget> daftarWidget = [
-    WidgetHalamanBeranda(
-      nama: 'FooBar',
-      gender: 'Pria',
-      email: 'foobar@gmail.com',
-    ),
+    WidgetHalamanBeranda(),
     WidgetHalamanRiwayat(),
     WidgetHalamanPengaturan(),
   ];
@@ -46,6 +47,14 @@ class _HalamanUtamaState extends State<HalamanUtama> {
   @override
   void initState() {
     super.initState();
+
+    Future.delayed(Duration(seconds: 0), () => muatHalamanUtama((hasilNama, hasilSurel, hasilAngka) {
+      setState(() {
+        nama = hasilNama;
+        surel = hasilSurel;
+        noSapaan = hasilAngka;
+      });
+    }));
   }
 
   Future<bool> keluarAplikasi() {
@@ -81,6 +90,38 @@ class _HalamanUtamaState extends State<HalamanUtama> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              indeksNavigasi == 0 ?
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  ),
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0, bottom: 30.0,),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TeksGlobal(
+                        isi: 'Hi! $nama',
+                        ukuran: 16.0,
+                        tebal: true,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      TeksGlobal(
+                        isi: noSapaan != null ? daftarSapaan[noSapaan] : '',
+                        ukuran: 16.0,
+                        tebal: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ) :
+              Material(),
               Expanded(
                 child: daftarWidget[indeksNavigasi],
               ),

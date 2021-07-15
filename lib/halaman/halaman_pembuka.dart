@@ -14,7 +14,7 @@ class _HalamanPembukaState extends State<HalamanPembuka> {
 
     Future.delayed(
       Duration(seconds: 3), () {
-        muatAwal(context);
+        muatHalamanPembuka(context);
       },
     );
   }

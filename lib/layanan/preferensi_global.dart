@@ -22,22 +22,6 @@ Future<bool> aturSurel(String surel) async {
   return hasil;
 }
 
-Future<bool> aturToken(String token) async {
-  bool hasil;
-
-  final SharedPreferences prefs = await preferensi;
-
-  await prefs.setString('token', token).then((value) {
-    hasil = true;
-  }).catchError((e) {
-    print(e);
-
-    hasil = false;
-  });
-
-  return hasil;
-}
-
 Future<bool> aturNama(String nama) async {
   bool hasil;
 
@@ -78,16 +62,6 @@ Future<String> tampilkanSurel() async {
   final SharedPreferences prefs = await preferensi;
 
   hasil = prefs.getString('surel');
-
-  return hasil;
-}
-
-Future<String> tampilkanToken() async {
-  String hasil;
-
-  final SharedPreferences prefs = await preferensi;
-
-  hasil = prefs.getString('token');
 
   return hasil;
 }

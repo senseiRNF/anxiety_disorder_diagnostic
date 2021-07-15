@@ -138,7 +138,7 @@ class _WidgetPerkenalanState extends State<WidgetPerkenalan> {
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      duration: Duration(seconds: 1),
+      duration: Duration(milliseconds: 500),
       opacity: opasitas,
       child: Stack(
         children: [
@@ -175,7 +175,7 @@ class _WidgetPerkenalanState extends State<WidgetPerkenalan> {
                     jeda = true;
                   });
 
-                  Future.delayed(Duration(seconds: 1), () {
+                  Future.delayed(Duration(milliseconds: 500), () {
                     setState(() {
                       indeks = indeks + 1;
                       opasitas = 1.0;

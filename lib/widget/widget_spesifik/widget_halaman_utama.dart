@@ -2,6 +2,7 @@ import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_diagnosa.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_pembuka.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_riwayat.dart';
+import 'package:anxiety_disorder_diagnostic/layanan/layanan_google_sign_in.dart';
 import 'package:anxiety_disorder_diagnostic/layanan/preferensi_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:flutter/material.dart';
@@ -36,41 +37,11 @@ class MenuUtama extends StatelessWidget {
 }
 
 class WidgetHalamanBeranda extends StatelessWidget {
-  final String nama;
-  final String gender;
-  final String email;
-
-  WidgetHalamanBeranda({
-    @required this.nama,
-    @required this.gender,
-    @required this.email,
-  });
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-            ),
-            color: Theme.of(context).primaryColor,
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0, bottom: 30.0,),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TeksGlobal(isi: 'Nama User: $nama',),
-                TeksGlobal(isi: 'Gender: $gender',),
-                TeksGlobal(isi: 'Email: $email',),
-              ],
-            ),
-          ),
-        ),
         SizedBox(
           height: 40.0,
         ),
@@ -186,9 +157,13 @@ class WidgetHalamanPengaturan extends StatelessWidget {
                   child: ListTile(
                     onTap: () {
                       dialogOpsi(context, 'Keluar dari sesi saat ini, Anda yakin?', () async {
-                        await aturPerkenalan(false).then((value) {
-                          tutupHalaman(context, null);
-                          timpaDenganHalaman(context, HalamanPembuka());
+                        await googleSignIn.disconnect().then((keluar) async {
+                          await hapusPreferensi().then((hasil) {
+                            if(hasil) {
+                              tutupHalaman(context, null);
+                              timpaDenganHalaman(context, HalamanPembuka());
+                            }
+                          });
                         });
                       }, () {
                         tutupHalaman(context, null);

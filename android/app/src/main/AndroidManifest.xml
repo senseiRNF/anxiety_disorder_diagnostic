@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:label="Diagnosa Gangguan Kecemasan"
+        android:label="Sistem Pakar Diagnosis Gangguan Kecemasan"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
