@@ -1,12 +1,12 @@
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
+import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_spesifik/fungsi_halaman_utama.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_diagnosa.dart';
 import 'package:anxiety_disorder_diagnostic/halaman/halaman_pembuka.dart';
-import 'package:anxiety_disorder_diagnostic/halaman/halaman_riwayat.dart';
+import 'package:anxiety_disorder_diagnostic/layanan/layanan_firestore.dart';
 import 'package:anxiety_disorder_diagnostic/layanan/layanan_google_sign_in.dart';
 import 'package:anxiety_disorder_diagnostic/layanan/preferensi_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 /// Koleksi widget yang dapat digunakan di halaman utama (main screen widgets)
 ///
@@ -220,22 +220,17 @@ class WidgetHalamanRiwayat extends StatefulWidget {
 }
 
 class _WidgetHalamanRiwayatState extends State<WidgetHalamanRiwayat> {
-  List dummyData = [
-    ['Riwayat 001', DateTime(2021, 6, 1)],
-    ['Riwayat 002', DateTime(2021, 6, 3)],
-    ['Riwayat 003', DateTime(2021, 6, 7)],
-    ['Riwayat 004', DateTime(2021, 6, 15)],
-    ['Riwayat 005', DateTime(2021, 6, 26)],
-    ['Riwayat 006', DateTime(2021, 6, 30)],
-    ['Riwayat 007', DateTime(2021, 7, 3)],
-    ['Riwayat 008', DateTime(2021, 7, 5)],
-    ['Riwayat 009', DateTime(2021, 7, 7)],
-    ['Riwayat 010', DateTime(2021, 7, 10)],
-  ];
+  String surel;
 
   @override
   void initState() {
     super.initState();
+
+    Future.delayed(Duration(seconds: 0), () => muatRiwayat((hasilSurel) {
+      setState(() {
+        surel = hasilSurel;
+      });
+    }));
   }
 
   @override
@@ -255,78 +250,25 @@ class _WidgetHalamanRiwayatState extends State<WidgetHalamanRiwayat> {
           ),
         ),
         Expanded(
-          child: RefreshIndicator(
-            onRefresh: () async {
-
-            },
-            child: ListView.builder(
-              itemCount: dummyData.length,
-              itemBuilder: (BuildContext konteksRiwayat, int indeks) {
-                return Padding(
-                  padding: indeks == 0 ? EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 5.0,) :
-                  indeks == (dummyData.length - 1) ? EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 10.0) :
-                  EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0,),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(20.0,),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(20.0,),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0,),
-                                bottomLeft: Radius.circular(20.0,),
-                              ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                TeksGlobal(
-                                  isi: dummyData[indeks][0],
-                                  ukuran: 20.0,
-                                  tebal: true,
-                                ),
-                                SizedBox(
-                                  height: 5.0,
-                                ),
-                                TeksGlobal(
-                                  isi: DateFormat('dd MMMM yyyy').format(dummyData[indeks][1]),
-                                  ukuran: 16.0,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0,),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: IconButton(
-                              onPressed: () {
-                                pindahKeHalaman(context, HalamanRiwayat(noRiwayat: indeks+1), (panggilKembali) {
-
-                                });
-                              },
-                              icon: Icon(
-                                Icons.arrow_forward,
-                              ),
-                              color: Colors.white,
-                              iconSize: 30.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+          child: surel != null ?
+          LihatData(
+            surel: surel,
+          ) :
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Center(
+                  child: TeksGlobal(
+                    isi: 'Sedang memuat...',
+                    ukuran: 16.0,
+                    tebal: true,
+                    posisi: TextAlign.center,
                   ),
-                );
-              },
-            ),
+                ),
+              ),
+              IndikatorProgressGlobal(),
+            ],
           ),
         ),
       ],

@@ -1,4 +1,6 @@
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
+import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_spesifik/fungsi_halaman_diagnosa.dart';
+import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_spesifik/widget_halaman_diagnosa.dart';
 import 'package:flutter/material.dart';
 
@@ -8,13 +10,27 @@ class HalamanDiagnosa extends StatefulWidget {
 }
 
 class _HalamanDiagnosaState extends State<HalamanDiagnosa> {
+  String surel;
+
   int jenisGangguan;
 
   double hasil;
 
+  bool memuat = false;
+
   @override
   void initState() {
     super.initState();
+
+    Future.delayed(Duration(seconds: 0), () =>  muatHalamanDiagnosa().then((hasil) {
+      if(hasil != null) {
+        setState(() {
+          surel = hasil;
+        });
+      }
+
+      memuat = false;
+    }));
   }
 
   @override
@@ -26,6 +42,7 @@ class _HalamanDiagnosaState extends State<HalamanDiagnosa> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              !memuat ?
               hasil == null ?
               Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0,),
@@ -51,11 +68,14 @@ class _HalamanDiagnosaState extends State<HalamanDiagnosa> {
                     ),
                   ],
                 ),
-              ) : Material(),
+              ) :
+              Material() :
+              Material(),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0,),
-                  child: hasil == null ?
+                  child: !memuat ?
+                  hasil == null ?
                   FormDiagnosa(
                     fungsiSimpan: (double bobot, int gangguan) {
                       setState(() {
@@ -65,8 +85,25 @@ class _HalamanDiagnosaState extends State<HalamanDiagnosa> {
                     },
                   ) :
                   TampilanHasil(
+                    surel: surel,
                     jenisGangguan: jenisGangguan,
                     bobotCFCombined: hasil,
+                  ) :
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: TeksGlobal(
+                            isi: 'Sedang memuat...',
+                            ukuran: 16.0,
+                            tebal: true,
+                            posisi: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      IndikatorProgressGlobal(),
+                    ],
                   ),
                 ),
               ),

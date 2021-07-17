@@ -1,5 +1,6 @@
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_global.dart';
 import 'package:anxiety_disorder_diagnostic/fungsi/fungsi_spesifik/fungsi_halaman_diagnosa.dart';
+import 'package:anxiety_disorder_diagnostic/layanan/layanan_firestore.dart';
 import 'package:anxiety_disorder_diagnostic/widget/widget_global.dart';
 import 'package:flutter/material.dart';
 
@@ -200,11 +201,7 @@ class _FormDiagnosaState extends State<FormDiagnosa> {
   }
 
   Future<bool> keluarHalaman() {
-    if(noPertanyaanLanjutan != 0) {
-      setState(() {
-        noPertanyaanLanjutan = noPertanyaanLanjutan - 1;
-      });
-    } else {
+    if(jenisGangguan == null) {
       if(noPertanyaanDasar != 0) {
         setState(() {
           daftarDiagnosa.removeAt(noPertanyaanDasar);
@@ -217,6 +214,16 @@ class _FormDiagnosaState extends State<FormDiagnosa> {
           tutupHalaman(context, null);
         }, () {
           tutupHalaman(context, null);
+        });
+      }
+    } else {
+      if(noPertanyaanLanjutan != 0) {
+        setState(() {
+          noPertanyaanLanjutan = noPertanyaanLanjutan - 1;
+        });
+      } else {
+        setState(() {
+          jenisGangguan = null;
         });
       }
     }
@@ -523,10 +530,12 @@ class _FormDiagnosaState extends State<FormDiagnosa> {
 }
 
 class TampilanHasil extends StatefulWidget {
+  final String surel;
   final int jenisGangguan;
   final double bobotCFCombined;
 
   TampilanHasil({
+    @required this.surel,
     @required this.jenisGangguan,
     @required this.bobotCFCombined,
   });
@@ -537,6 +546,8 @@ class TampilanHasil extends StatefulWidget {
 
 class _TampilanHasilState extends State<TampilanHasil> {
   int posisiSaran = 0;
+
+  bool memuat = false;
 
   @override
   void initState() {
@@ -551,6 +562,37 @@ class _TampilanHasilState extends State<TampilanHasil> {
     hasil = hasilDiPecahan.floor().toString();
 
     return hasil;
+  }
+
+  Future<bool> keluarHalaman() {
+    if(!memuat) {
+      dialogOpsi(context, 'Apakah Anda ingin menyimpan hasil diagnosa saat ini?', () async {
+        setState(() {
+          memuat = true;
+        });
+
+        tutupHalaman(context, null);
+
+        await simpanData(widget.surel, widget.bobotCFCombined, widget.jenisGangguan, () {
+          tutupHalaman(context, null);
+        }, () {
+          setState(() {
+            memuat = false;
+          });
+
+          dialogOK(context, 'Terjadi kesalahan, silahkan coba lagi', () {
+            tutupHalaman(context, null);
+          }, () {
+
+          });
+        });
+      }, () {
+        tutupHalaman(context, null);
+        tutupHalaman(context, null);
+      });
+    }
+
+    return Future.value(false);
   }
 
   @override
@@ -669,13 +711,15 @@ class _TampilanHasilState extends State<TampilanHasil> {
               SizedBox(
                 height: 10.0,
               ),
+              !memuat ?
               TombolGlobal(
                 judul: 'Selesai',
                 warnaTombol: Colors.black,
                 fungsiTekan: () {
-                  tutupHalaman(context, null);
+                  keluarHalaman();
                 },
-              ),
+              ) :
+              IndikatorProgressGlobal(),
               SizedBox(
                 height: 10.0,
               ),

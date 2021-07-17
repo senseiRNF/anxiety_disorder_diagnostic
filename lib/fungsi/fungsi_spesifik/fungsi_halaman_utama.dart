@@ -21,3 +21,9 @@ void muatHalamanUtama(Function fungsiMuat) async {
 
   fungsiMuat(nama, surel, angkaAcak);
 }
+
+void muatRiwayat(Function fungsiMuat) async {
+  String surel = await tampilkanSurel();
+
+  fungsiMuat(surel);
+}
