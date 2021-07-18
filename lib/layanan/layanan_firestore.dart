@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-Future<void> simpanData(String surel, double bobotCF, int jenisGangguan, Function fungsiBerhasil, Function fungsiGagal) {
+Future<void> simpanData(String surel, double bobotCF, int jenisGangguan, Function fungsiBerhasil, Function fungsiGagal) async {
   CollectionReference riwayat = FirebaseFirestore.instance.collection(surel);
 
   return riwayat.add({
@@ -17,7 +17,17 @@ Future<void> simpanData(String surel, double bobotCF, int jenisGangguan, Functio
     'jam': DateFormat('HH:mm').format(DateTime.now()),
   }).then((value) {
     fungsiBerhasil();
-  }).onError((error, stackTrace) {
+  }).catchError((error) {
+    fungsiGagal();
+  });
+}
+
+Future<void> hapusData(String surel, String idDokumen, Function fungsiBerhasil, Function fungsiGagal) async {
+  CollectionReference riwayat = FirebaseFirestore.instance.collection(surel);
+
+  return riwayat.doc(idDokumen).delete().then((value) {
+    fungsiBerhasil();
+  }).catchError((error) {
     fungsiGagal();
   });
 }
@@ -113,7 +123,7 @@ class _LihatDataState extends State<LihatData> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             TeksGlobal(
-                              isi: DateFormat('dd MM yyyy').format(DateTime.parse(data['tanggal'])),
+                              isi: DateFormat('dd MMMM yyyy').format(DateTime.parse(data['tanggal'])),
                               ukuran: 20.0,
                               tebal: true,
                             ),
@@ -135,6 +145,7 @@ class _LihatDataState extends State<LihatData> {
                         child: IconButton(
                           onPressed: () {
                             pindahKeHalaman(context, HalamanRiwayat(
+                              surel: widget.surel,
                               idDokumen: document.id,
                               jenisGangguan: data['jenisGangguan'],
                               bobotCFCombined: data['bobotCF'],
@@ -167,40 +178,4 @@ class _LihatDataState extends State<LihatData> {
       },
     );
   }
-}
-
-FutureBuilder<DocumentSnapshot> testingDocuments(String email, Widget gagalMuat, Widget berhasilTerhubung) {
-  CollectionReference riwayatDiagnosa = FirebaseFirestore.instance.collection('riwayat_diagnosa');
-
-  return FutureBuilder<DocumentSnapshot>(
-    future: riwayatDiagnosa.doc(email).get(),
-    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-      if (snapshot.hasError) {
-        return gagalMuat;
-      }
-
-      if (snapshot.hasData && snapshot.data.exists) {
-        Map<String, dynamic> data = snapshot.data.data() as Map<String, dynamic>;
-
-        print(data);
-
-        return berhasilTerhubung;
-      }
-
-      if (snapshot.connectionState == ConnectionState.done) {
-        Map<String, dynamic> data = snapshot.data.data() as Map<String, dynamic>;
-        print(data);
-      }
-
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Material(),
-          ),
-          IndikatorProgressGlobal(),
-        ],
-      );
-    },
-  );
 }

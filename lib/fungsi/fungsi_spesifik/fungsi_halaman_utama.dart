@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:anxiety_disorder_diagnostic/layanan/preferensi_global.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 List<String> daftarSapaan = [
   'Semoga harimu menyenangkan',
@@ -26,4 +27,14 @@ void muatRiwayat(Function fungsiMuat) async {
   String surel = await tampilkanSurel();
 
   fungsiMuat(surel);
+}
+
+void kirimSurelBantuan(String penerima, String isiPesan) async {
+  Email surel = Email(
+    recipients: [penerima],
+    subject: 'Bantuan dan Saran Aplikasi',
+    body: isiPesan,
+  );
+
+  await FlutterEmailSender.send(surel);
 }

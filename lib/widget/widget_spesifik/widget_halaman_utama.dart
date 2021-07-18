@@ -133,7 +133,10 @@ class WidgetHalamanPengaturan extends StatelessWidget {
                   color: Colors.transparent,
                   child: ListTile(
                     onTap: () {
-
+                      kirimSurelBantuan(
+                        'sistempakar71@gmail.com',
+                        '',
+                      );
                     },
                     leading: Container(
                       padding: EdgeInsets.all(5.0,),
